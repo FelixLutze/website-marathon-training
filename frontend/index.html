@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marathon Training Plan</title>
+    <style>
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a; /* Darker background */
+    margin: 0;
+    padding: 0;
+    color: #eaeaea; /* Lighter text color for better contrast */
+}
+
+h2 {
+    text-align: center;
+    background-color: #555; /* Darker background for heading */
+    color: #fff;
+    padding: 20px 0;
+    margin: 0;
+}
+
+#calendar {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #333; /* Darker background for calendar */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.week {
+    border-bottom: 2px solid #444; /* Darker border */
+    padding: 10px 0;
+}
+
+.week:last-child {
+    border-bottom: none;
+}
+
+.week h3 {
+    text-align: center;
+    color: #aaa; /* Lighter text color for better contrast */
+    background-color: #222; /* Darker background for week heading */
+    padding: 5px 0;
+    border-radius: 5px;
+    margin: 0 0 20px;
+}
+
+.day {
+    background-color: #2a2a2a; /* Darker background for day */
+    border: 1px solid #444; /* Darker border */
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.day h4 {
+    color: #d1d1d1; /* Lighter text color for better contrast */
+    border-bottom: 2px solid #4a4a4a; /* Darker border */
+    padding-bottom: 10px;
+    margin: 0 0 15px;
+}
+
+/* Removed the bullet styling for h4 */
+
+/* Styles for the ul and li elements to represent activities */
+.day ul {
+    list-style-type: none; /* Remove default bullets */
+    padding: 0; /* Remove default padding */
+}
+
+.day li {
+    padding-left: 30px;
+    position: relative;
+    margin: 8px 0;
+    font-size: 14px;
+}
+
+.day li::before {
+    content: '•';
+    font-size: 24px;
+    color: #ffcc00;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+p {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
+.highlighted-day {
+    background-color: #3a3a3a; /* Slightly brighter background for highlighted days */
+    border-color: #ffcc00;
+}
+
+#progressContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #252525; /* Darker background for the progress bar container */
+    padding: 10px;
+    box-shadow: 0px -2px 5px rgba(0,0,0,0.2); /* Slightly more visible shadow */
+}
+
+#progressBar {
+    width: 0%; 
+    height: 20px;
+    background-color: #4CAF50; 
+}
+
+#progressText {
+    text-align: center;
+    margin-top: 5px;
+    color: #fff; /* White color for better visibility */
+}
+
+    </style>
+</head>
+<body>
+
+<h2 id="trainingTitle">Marathon Training Plan</h2>
+
+<div id="calendar"></div>
+
+<div id="progressContainer">
+    <div id="progressBar"></div>
+    <div id="progressText">0%</div>
+</div>
+    
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    const trainingPlan = {
+        weeks: [
+            {
+                week: "1 (Base Building stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8 km easy run"]},
+                    {day: "Wednesday", activities: ["Gym workout, focus on lower body"]},
+                    {day: "Thursday", activities: ["10 km easy run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 15-20 minutes"]},
+                    {day: "Saturday", activities: ["Long 13 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "2 (Base Building stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8 km easy run"]},
+                    {day: "Wednesday", activities: ["Gym workout, focus on lower body"]},
+                    {day: "Thursday", activities: ["10 km easy run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 15-20 minutes"]},
+                    {day: "Saturday", activities: ["Long 13 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "3 (Base Building stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8 km easy run"]},
+                    {day: "Wednesday", activities: ["Gym workout, focus on lower body"]},
+                    {day: "Thursday", activities: ["10 km easy run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 15-20 minutes"]},
+                    {day: "Saturday", activities: ["Long 13 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "4 (Base Building stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8 km easy run"]},
+                    {day: "Wednesday", activities: ["Gym workout, focus on lower body"]},
+                    {day: "Thursday", activities: ["10 km easy run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 15-20 minutes"]},
+                    {day: "Saturday", activities: ["Long 13 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "5 (Strength stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8 km run with hill training"]},
+                    {day: "Wednesday", activities: ["Gym workout, focus on upper body"]},
+                    {day: "Thursday", activities: ["11 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 15-20 minutes"]},
+                    {day: "Saturday", activities: ["Long 14-19 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "6 (Strength stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8 km run with hill training"]},
+                    {day: "Wednesday", activities: ["Gym workout, focus on upper body"]},
+                    {day: "Thursday", activities: ["11 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 15-20 minutes"]},
+                    {day: "Saturday", activities: ["Long 14-19 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "7 (Strength stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8 km run with hill training"]},
+                    {day: "Wednesday", activities: ["Gym workout, focus on upper body"]},
+                    {day: "Thursday", activities: ["11 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 15-20 minutes"]},
+                    {day: "Saturday", activities: ["Long 14-19 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "8 (Strength stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8 km run with hill training"]},
+                    {day: "Wednesday", activities: ["Gym workout, focus on upper body"]},
+                    {day: "Thursday", activities: ["11 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 15-20 minutes"]},
+                    {day: "Saturday", activities: ["Long 14-19 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "9 (Speed stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8-11 km run with interval training (speed bursts)"]},
+                    {day: "Wednesday", activities: ["Gym workout, include both upper and lower body"]},
+                    {day: "Thursday", activities: ["11-14 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Saturday", activities: ["Long 14-19 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "10 (Speed stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8-11 km run with interval training (speed bursts)"]},
+                    {day: "Wednesday", activities: ["Gym workout, include both upper and lower body"]},
+                    {day: "Thursday", activities: ["11-14 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Saturday", activities: ["Long 14-19 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "11 (Speed stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8-11 km run with interval training (speed bursts)"]},
+                    {day: "Wednesday", activities: ["Gym workout, include both upper and lower body"]},
+                    {day: "Thursday", activities: ["11-14 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Saturday", activities: ["Long 14-19 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "12 (Speed stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8-11 km run with interval training (speed bursts)"]},
+                    {day: "Wednesday", activities: ["Gym workout, include both upper and lower body"]},
+                    {day: "Thursday", activities: ["11-14 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Saturday", activities: ["Long 14-19 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "13 (Speed stage)",
+                days: [
+                    {day: "Monday", activities: ["Bodyweight strength training (planks, squats, lunges)"]},
+                    {day: "Tuesday", activities: ["8-11 km run with interval training (speed bursts)"]},
+                    {day: "Wednesday", activities: ["Gym workout, include both upper and lower body"]},
+                    {day: "Thursday", activities: ["11-14 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Saturday", activities: ["Long 14-19 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "14 (Endurance stage)",
+                days: [
+                    {day: "Monday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Tuesday", activities: ["11-16 km run with a mixture of hill and speed"]},
+                    {day: "Wednesday", activities: ["Gym workout, include both upper and lower body"]},
+                    {day: "Thursday", activities: ["11-16 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Saturday", activities: ["Long 29-32 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "15 (Endurance stage)",
+                days: [
+                    {day: "Monday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Tuesday", activities: ["11-16 km run with a mixture of hill and speed"]},
+                    {day: "Wednesday", activities: ["Gym workout, include both upper and lower body"]},
+                    {day: "Thursday", activities: ["11-16 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Saturday", activities: ["Long 29-32 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "16 (Endurance stage)",
+                days: [
+                    {day: "Monday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Tuesday", activities: ["11-16 km run with a mixture of hill and speed"]},
+                    {day: "Wednesday", activities: ["Gym workout, include both upper and lower body"]},
+                    {day: "Thursday", activities: ["11-16 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Saturday", activities: ["Long 29-32 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "17 (Endurance stage)",
+                days: [
+                    {day: "Monday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Tuesday", activities: ["11-16 km run with a mixture of hill and speed"]},
+                    {day: "Wednesday", activities: ["Gym workout, include both upper and lower body"]},
+                    {day: "Thursday", activities: ["11-16 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Saturday", activities: ["Long 29-32 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "18 (Endurance stage)",
+                days: [
+                    {day: "Monday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Tuesday", activities: ["11-16 km run with a mixture of hill and speed"]},
+                    {day: "Wednesday", activities: ["Gym workout, include both upper and lower body"]},
+                    {day: "Thursday", activities: ["11-16 km tempo run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Saturday", activities: ["Long 29-32 km run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "19 (Taper stage)",
+                days: [
+                    {day: "Monday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Tuesday", activities: ["8 km easy run"]},
+                    {day: "Wednesday", activities: ["Light gym workout, emphasis on flexibility"]},
+                    {day: "Thursday", activities: ["5 km easy run"]},
+                    {day: "Friday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Saturday", activities: ["3 km easy run"]},
+                    {day: "Sunday", activities: ["Rest day!"]}
+                ]
+            },
+            {
+                week: "20 (Race week)",
+                days: [
+                    {day: "Monday", activities: ["5 km easy run"]},
+                    {day: "Tuesday", activities: ["3 km easy run", "Light gym"]},
+                    {day: "Wednesday", activities: ["3 km easy run"]},
+                    {day: "Thursday", activities: ["Yoga/Stretching", "Sauna for 20-30 minutes"]},
+                    {day: "Friday", activities: ["carbohydrate-loading", "hydration"]},
+                    {day: "Saturday", activities: ["carbohydrate-loading", "hydration"]},
+                    {day: "Sunday", activities: ["Race day!"]}
+                ]
+            },
+        ]
+    };
+
+    // Dynamically set the total number of weeks and the title
+    const totalWeeks = trainingPlan.weeks.length;
+    document.getElementById('trainingTitle').textContent = `Week 1-${totalWeeks}: Marathon Training Plan`;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset hours, minutes, seconds, milliseconds for today
+    const startingDate = new Date('2023-10-16'); 
+    startingDate.setHours(0, 0, 0, 0); // Reset hours, minutes, seconds, milliseconds for startingDate
+
+    const daysPassed = Math.floor((today - startingDate) / (1000 * 60 * 60 * 24));
+    const currentWeek = Math.floor(daysPassed / 7);
+    const currentDay = daysPassed % 7; 
+
+    console.log('Today:', today);
+    console.log('Days Passed:', daysPassed);
+    console.log('Current Week:', currentWeek);
+    console.log('Current Day:', currentDay);
+
+    const calendarElem = document.getElementById('calendar');
+    trainingPlan.weeks.forEach((week, weekIndex) => {
+        const weekElem = document.createElement('div');
+        weekElem.className = 'week';
+        weekElem.setAttribute('data-week', weekIndex); // Set the week number as a data attribute
+
+        const weekTitle = document.createElement('h3');
+        weekTitle.textContent = `Week ${week.week}`;
+        weekElem.appendChild(weekTitle);
+
+        week.days.forEach((dayPlan, dayIndex) => {
+            const dayElem = document.createElement('div');
+            dayElem.className = 'day';
+            dayElem.setAttribute('data-day', dayIndex); // Set the day number as a data attribute
+
+            const dayTitle = document.createElement('h4');
+            dayTitle.textContent = dayPlan.day;
+            dayElem.appendChild(dayTitle);
+
+            const activityList = document.createElement('ul');
+            dayPlan.activities.forEach(activity => {
+                const activityItem = document.createElement('li');
+                activityItem.textContent = activity;
+                activityList.appendChild(activityItem);
+            });
+
+            dayElem.appendChild(activityList);
+
+            weekElem.appendChild(dayElem);
+        });
+
+        calendarElem.appendChild(weekElem);
+    });
+
+    // Find the week element based on the currentWeek value
+    const weekElem = document.querySelector(`.week[data-week="${currentWeek}"]`);
+    if (weekElem) {
+        // Find the day element based on the currentDay value within the found week
+        const dayElem = weekElem.querySelector(`.day[data-day="${currentDay}"]`);
+        if (dayElem) {
+            dayElem.classList.add('highlighted-day');
+            dayElem.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+    }
+
+    const totalDays = trainingPlan.weeks.reduce((acc, week) => acc + week.days.length, 0);
+    const progressPercentage = Math.min((daysPassed / totalDays) * 100, 100);
+
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
+
+    progressBar.style.width = progressPercentage + "%";
+    progressText.textContent = Math.round(progressPercentage) + "% completed";
+});
+
+</script>
+
+</body>
+</html>
